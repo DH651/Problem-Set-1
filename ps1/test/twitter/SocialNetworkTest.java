@@ -6,12 +6,7 @@ package twitter;
 import static org.junit.Assert.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.Test;
 
@@ -47,12 +42,12 @@ public class SocialNetworkTest {
 	 private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "I hate rivest,he is xjd@9ixnx", d2);
 	 private static final Tweet tweet3 = new Tweet(3, "dappy", "@ELI @ROSE @JULIJA I hate this system.", d3);
 	 private static final Tweet tweet4 = new Tweet(4, "eli", "@12345 I know all the tricks that he will play.", d4);
-	 private static final Tweet tweet5 = new Tweet(5, "rose", "@eli I'll mail you the details. My mail id is rose@newage.com.", d5);
+	 private static final Tweet tweet5 = new Tweet(5, "rose", "@eli I'll mail you the details. My mail id is rose@newage.com. Reply me @Eli.", d5);
 	 private static final Tweet tweet6 = new Tweet(6, "caremel", "@rose @eli @dappy This was a big revelation for me.", d6);
 	 private static final Tweet tweet7 = new Tweet(7, "julija", "I have learned so much from you @dappy.", d7);
 	 private static final Tweet tweet8 = new Tweet(8, "dappy", "@roSE I bid you farwell!", d8);
-	 private static final Tweet tweet9 = new Tweet(9, "rose", "@DaPPy @eLI Do you know that I hate you both?", d9);
-	 private static final Tweet tweet10 = new Tweet(10, "eli", "@RoSe You have revealed your true face.", d10);
+	 private static final Tweet tweet9 = new Tweet(9, "rose", "@DaPPy @eLI Do you know that I hate you both @Eli and @DapPy ?", d9);
+	 private static final Tweet tweet10 = new Tweet(10, "eli", "@RoSe You have revealed your true face. I hate you @rOSe.", d10);
 	    
 	 
 	 
@@ -65,35 +60,95 @@ public class SocialNetworkTest {
     // covers empty tweets list, zero twitter authors, an author has zero followers
     @Test
     public void testGuessFollowsGraph1() {
-        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(new ArrayList<>());
+        Map<String, Set<String>> actualfollowsGraph = SocialNetwork.guessFollowsGraph(new ArrayList<>());
         
-        assertTrue("expected empty graph", followsGraph.isEmpty());
+        assertTrue("expected empty graph", actualfollowsGraph.isEmpty());
     }
     
     
     // covers more than one item, more than one authors, an author has single followers
     @Test
     public void testGuessFollowsGraph2() {
-        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet4, tweet5, tweet7, tweet10));
+        Map<String, Set<String>> actualfollowsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet4, tweet5, tweet7, tweet10));
         
-        assertTrue("expected empty graph", followsGraph.isEmpty());
+        // Create expectedfollows graph but in lowercase
+        Map<String, Set<String>> expectedfollowsGraphLowerCase = new HashMap<>();
+        expectedfollowsGraphLowerCase.put("eli", new HashSet<>(Arrays.asList("12345")));
+        expectedfollowsGraphLowerCase.put("rose", new HashSet<>(Arrays.asList("eli")));
+        expectedfollowsGraphLowerCase.put("julija", new HashSet<>(Arrays.asList("dappy")));
+        expectedfollowsGraphLowerCase.put("eli", new HashSet<>(Arrays.asList("rose")));
+        
+        // Create actual graph but all the entries should be in lowercase
+        Map<String, Set<String>> actualfollowsGraphLowerCase = new HashMap<>();
+        for(Map.Entry<String, Set<String>> entry : actualfollowsGraph.entrySet()){
+        	Set<String> followers = new HashSet<>();
+        	String username = entry.getKey().toLowerCase();
+        	// Iterate over followers of an username and convert them into lowercase
+        	for (String follower: entry.getValue()) {
+        		followers.add(follower.toLowerCase());
+        	}
+        	// add the username and followers in their lowercase
+            actualfollowsGraphLowerCase.put(username, followers);
+        }
+        
+        assertTrue("Expected expectedfollowsGraph and actualfollowsGraph to be same", expectedfollowsGraphLowerCase.equals(actualfollowsGraphLowerCase));
     }
     
     
     // covers more than one item, more than one authors, an author may have multiple followers or single followers
     @Test
     public void testGuessFollowsGraph3() {
-        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet6, tweet7, tweet8, tweet9, tweet10));
+        Map<String, Set<String>> actualfollowsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet6, tweet7, tweet8, tweet9, tweet10));
         
-        assertTrue("expected empty graph", followsGraph.isEmpty());
+        // Create expectedfollows graph but in lowercase
+        Map<String, Set<String>> expectedfollowsGraphLowerCase = new HashMap<>();
+        expectedfollowsGraphLowerCase.put("caremel", new HashSet<>(Arrays.asList("rose", "eli", "dappy")));
+        expectedfollowsGraphLowerCase.put("julija", new HashSet<>(Arrays.asList("dappy")));
+        expectedfollowsGraphLowerCase.put("dappy", new HashSet<>(Arrays.asList("rose")));
+        expectedfollowsGraphLowerCase.put("rose", new HashSet<>(Arrays.asList("dappy", "eli")));
+        expectedfollowsGraphLowerCase.put("eli", new HashSet<>(Arrays.asList("rose")));
+        
+        // Create actual graph but all the entries should be in lowercase
+        Map<String, Set<String>> actualfollowsGraphLowerCase = new HashMap<>();
+        for(Map.Entry<String, Set<String>> entry : actualfollowsGraph.entrySet()){
+        	Set<String> followers = new HashSet<>();
+        	String username = entry.getKey().toLowerCase();
+        	// Iterate over followers of an username and convert them into lowercase
+        	for (String follower: entry.getValue()) {
+        		followers.add(follower.toLowerCase());
+        	}
+        	// add the username and followers in their lowercase
+            actualfollowsGraphLowerCase.put(username, followers);
+        }
+        
+        assertTrue("Expected expectedfollowsGraph and actualfollowsGraph to be same", expectedfollowsGraphLowerCase.equals(actualfollowsGraphLowerCase));
+        
     }
     
     // covers more than one item, more than one twitter authors, an author may have multiple followers or single followers.
     @Test
     public void testGuessFollowsGraph4() {
-        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet5));
+        Map<String, Set<String>> actualfollowsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet5));
         
-        assertTrue("expected empty graph", followsGraph.isEmpty());
+     // Create expected follows graph but all the key value pairs must be in lowercase
+        Map<String, Set<String>> expectedfollowsGraphLowerCase = new HashMap<>();
+        expectedfollowsGraphLowerCase.put("rose", new HashSet<>(Arrays.asList("eli")));
+     
+     // Create actual graph but all the entry should be in lowercase
+        Map<String, Set<String>> actualfollowsGraphLowerCase = new HashMap<>();
+        for(Map.Entry<String, Set<String>> entry : actualfollowsGraph.entrySet()){
+        	Set<String> followers = new HashSet<>();
+        	String username = entry.getKey().toLowerCase(); // convert the username into lowercase
+        	// Iterate over followers of an username and convert them into lowercase
+        	for (String follower: entry.getValue()) {
+        		followers.add(follower.toLowerCase());
+        	}
+        	// add the username and followers in their lowercase
+            actualfollowsGraphLowerCase.put(username, followers);
+        }
+        
+        assertTrue("Expected expectedfollowsGraph and actualfollowsGraph to be same", expectedfollowsGraphLowerCase.equals(actualfollowsGraphLowerCase));
+       
     }
    
  /*--------------------------------------------------------------------------------------------------------------------------------------*/

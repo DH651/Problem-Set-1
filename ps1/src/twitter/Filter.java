@@ -35,7 +35,7 @@ public class Filter {
         
         // Iterate over the list of tweets,check if the current tweet.author matches username,if yes then add the tweet to the list
         for (Tweet currentTweet:tweets) {
-        	String currentTweetAuthorLowercase = currentTweet.getText().toLowerCase();
+        	String currentTweetAuthorLowercase = currentTweet.getAuthor().toLowerCase();
         	if (currentTweetAuthorLowercase.equals(username.toLowerCase())) {
         		tweetsFromUsername.add(currentTweet);
         	}

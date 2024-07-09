@@ -1,5 +1,6 @@
 package twitter;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,13 +29,34 @@ public class Utilities {
     	// Break the tweet.text into words and add these two a list
     	String[] Words = tweet.getText().split(" ");
     	Set<String> mentionedUsers= new HashSet<String>();
-    	 
-    	// Iterate over each word and check if the current word is a valid username,if yes then add it the answer.
+    	Set<String> mentionedUsersLowerCase = new HashSet<String>();
+    	
+    	// Iterate over each word and check if the current word is a valid username,if yes then add  it to the answer.
     	for(String word:Words) {
+    		//System.out.println("\n");
+    		//System.out.println(word);
+    		//System.out.println(isValidUsername(word));
     		if (isValidUsername(word)) {
-    			mentionedUsers.add(word);
+ 
+    			// Remove the leading "@"
+    			word = word.substring(1);
+    		
+    			// Remove the trailing "," and "."
+    			if(word.endsWith(",")|word.endsWith(".")) {
+    				word = word.substring(0, word.length() - 1);
+    			}
+    			
+    			// Since, username are case-insensitive, we will add the usernames only if username in lowercase form are not present in  
+        		// mentionedUsersLowerCase
+        		if(!mentionedUsersLowerCase.contains(word.toLowerCase())) {
+        		  mentionedUsers.add(word);
+        		  mentionedUsersLowerCase.add(word.toLowerCase());
+        		}
+    			
     		}
+    		
     	}
+   
     	return mentionedUsers;
     }
     
@@ -56,7 +78,7 @@ public class Utilities {
     public static boolean isValidUsername(String word){
     	// regex pattern matches with the word starting with @ followed by one or more characters from the lowercase letters[a-z]
     	// ,uppercase letters[A-Z], underscore[_], hypen[_].
-    	 Pattern pattern = Pattern.compile("@[a-zA-z0-9_-]+");
+    	 Pattern pattern = Pattern.compile("^@[a-zA-Z0-9_-]+(,|.)?$");
     	 Matcher matcher = pattern.matcher(word);
     	 boolean matchFound = matcher.find();
     	 return matchFound;
@@ -80,10 +102,14 @@ public class Utilities {
      * @return true of the tweet contains certain word from words
      */
     public static boolean tweetContainsWords(Tweet tweet, List<String> words) {
-    	 String[] wordsFromTweet = tweet.getText().split(" ");
-    	 return true;
-        //Create a Set of words.
-        //Break the twitter.text into words and check if any of the words matches with words
+    	 String[] wordsInATweetArray = tweet.getText().split(" ");
+    	 Set<String> wordsInATweetSet = new HashSet<String>(Arrays.asList(wordsInATweetArray));
+    	 for(String word:words) {
+    		if(wordsInATweetSet.contains(word)) {
+    			return true;
+    		}
+    	 }
+    	 return false;
     }
   
 }

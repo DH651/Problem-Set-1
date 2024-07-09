@@ -1,7 +1,6 @@
 package twitter;
 
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 import java.time.Instant;
 import java.util.Set;
 import java.util.Arrays;
@@ -59,7 +58,7 @@ public class UtilitiesTest {
     // No valid username is present, No repeation in the tweets
     @Test
     public void testGetMentionedUsers1() {
-        Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet3));
+        Set<String> actualMentionedUsers = Utilities.getMentionedUsersFromSingleTweet(tweet3);
         Set<String> expectedMentionedUsersLowercase = Set.of();
         Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
@@ -73,7 +72,7 @@ public class UtilitiesTest {
     // Atleast one valid username, No repeation in the tweets
     @Test
     public void testGetMentionedUsers2() {
-        Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet6));
+        Set<String> actualMentionedUsers = Utilities.getMentionedUsersFromSingleTweet(tweet6);
         Set<String> expectedMentionedUsersLowercase = Set.of("dippy-dappy", "eli", "rose", "julija");
         Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
@@ -86,13 +85,14 @@ public class UtilitiesTest {
     // Atleast one valid username, Usernames are repeated in the tweets
     @Test
     public void testGetMentionedUsers3() {
-        Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet9));
-        Set<String> expectedMentionedUsersLowercase = Set.of("dippy-dappy", "eli123");
+        Set<String> actualMentionedUsers = Utilities.getMentionedUsersFromSingleTweet(tweet9);
+        Set<String> expectedMentionedUsersLowercase = Set.of("dippy_dappy", "eli123");
         Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
         	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
+        
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
     
@@ -126,7 +126,7 @@ public class UtilitiesTest {
     public void testisValidUsername3() {
         boolean mentionedUser = Utilities.isValidUsername("deny@deid.com");
         
-        assertTrue("expected true", mentionedUser);
+        assertFalse("expected false", mentionedUser);
     }
     
     
@@ -136,7 +136,7 @@ public class UtilitiesTest {
     public void testisValidUsername4() {
         boolean mentionedUser = Utilities.isValidUsername("UPPP#@JUL-IJA<?");
         
-        assertTrue("expected true", mentionedUser);
+        assertFalse("expected false", mentionedUser);
     }
     
     
@@ -146,7 +146,7 @@ public class UtilitiesTest {
     public void testisValidUsername5() {
         boolean mentionedUser = Utilities.isValidUsername("@&JUL_@I_JA$%");
         
-        assertTrue("expected true", mentionedUser);
+        assertFalse("expected false", mentionedUser);
     }
     
    

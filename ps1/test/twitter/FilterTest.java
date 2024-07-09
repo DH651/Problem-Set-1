@@ -172,6 +172,12 @@ public class FilterTest {
         assertEquals("expected 7 items in a list", 7, inTimespan.size());
         assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5, tweet6, tweet7)));
         assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
+        assertEquals("expected same order", 1, inTimespan.indexOf(tweet2));
+        assertEquals("expected same order", 2, inTimespan.indexOf(tweet3));
+        assertEquals("expected same order", 3, inTimespan.indexOf(tweet4));
+        assertEquals("expected same order", 4, inTimespan.indexOf(tweet5));
+        assertEquals("expected same order", 5, inTimespan.indexOf(tweet6));
+        assertEquals("expected same order", 6, inTimespan.indexOf(tweet7));
     }
    
 //	2. one item, T.start < tweets[min].timestamp,T.end < tweets[min].timestamp,zero tweets from timespan,zero tweet overlap with T.start and T.end
@@ -206,7 +212,10 @@ public class FilterTest {
         
         assertFalse("expected non-empty list", inTimespan.isEmpty());
         assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet5, tweet6, tweet7, tweet8)));
-        assertEquals("expected same order", 0, inTimespan.indexOf(tweet4));
+        assertEquals("expected same order", 0, inTimespan.indexOf(tweet5));
+        assertEquals("expected same order", 1, inTimespan.indexOf(tweet6));
+        assertEquals("expected same order", 2, inTimespan.indexOf(tweet7));
+        assertEquals("expected same order", 3, inTimespan.indexOf(tweet8));
     }
     
 //  5. more than one item, tweets[min].timestamp <= T.end <= tweets[max].timestamp, tweets[min].timestamp <= T.start <= tweets[max].timestamp,zero tweets within timepsan
@@ -217,7 +226,7 @@ public class FilterTest {
         
         List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5, tweet6, tweet7), new Timespan(testStart, testEnd));
         
-        assertTrue("expected non-empty list", inTimespan.isEmpty());
+        assertTrue("expected empty list", inTimespan.isEmpty());
        
     }
     
@@ -232,7 +241,16 @@ public class FilterTest {
         
         assertFalse("expected non-empty list", inTimespan.isEmpty());
         assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5, tweet6, tweet7, tweet8, tweet9, tweet10)));
+        assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
+        assertEquals("expected same order", 1, inTimespan.indexOf(tweet2));
         assertEquals("expected same order", 2, inTimespan.indexOf(tweet3));
+        assertEquals("expected same order", 3, inTimespan.indexOf(tweet4));
+        assertEquals("expected same order", 4, inTimespan.indexOf(tweet5));
+        assertEquals("expected same order", 5, inTimespan.indexOf(tweet6));
+        assertEquals("expected same order", 6, inTimespan.indexOf(tweet7));
+        assertEquals("expected same order", 7, inTimespan.indexOf(tweet8));
+        assertEquals("expected same order", 8, inTimespan.indexOf(tweet9));
+        assertEquals("expected same order", 9, inTimespan.indexOf(tweet10));
     }
    
 //  empty item,zero tweets within timespan,zero tweet overlap with T.start and T.end
@@ -278,7 +296,7 @@ public class FilterTest {
         assertEquals("expected same order", 0, containing.indexOf(tweet2));
         assertEquals("expected same order", 1, containing.indexOf(tweet3));
         assertEquals("expected same order", 2, containing.indexOf(tweet4));
-        assertEquals("expected same order", 4, containing.indexOf(tweet5));
+        assertEquals("expected same order", 3, containing.indexOf(tweet5));
     }
   
 //  4. more than one item, one word,1 < x < tweets.length() tweets with atleast one word from words, a single word matches multiple tweets.
@@ -288,7 +306,8 @@ public class FilterTest {
         
         assertFalse("expected non-empty list", containing.isEmpty());
         assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet7, tweet10)));
-        assertEquals("expected same order", 0, containing.indexOf(tweet1));
+        assertEquals("expected same order", 0, containing.indexOf(tweet7));
+        assertEquals("expected same order", 1, containing.indexOf(tweet10));
     }
     
 //  5. more than one item, more than one word, all tweets have atleast one word from word, a single word matches multiple tweets.
@@ -297,7 +316,7 @@ public class FilterTest {
         List<Tweet> containing = Filter.containing(Arrays.asList(tweet2, tweet3, tweet4, tweet5), Arrays.asList("farwell"));
         
  
-        assertFalse("expected non-empty list", containing.isEmpty());
+        assertTrue("expected empty list", containing.isEmpty());
         
     }
 

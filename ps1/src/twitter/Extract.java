@@ -28,18 +28,17 @@ public class Extract {
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
     	
-        
-        //Initialize timespanStart & timespanEnd with the timestamp of the first tweet.
-    	Instant Start = Instant.parse("0000-00-00T00:00:00Z");
-    	Instant End = Instant.parse("0000-00-00T00:00:00Z");
     	
     	//if empty list return a sentinal object.
-    	if (tweets.size() == 0){
-    		return new Timespan(Start, End);
+    	if (tweets.isEmpty()){
+    		return new Timespan(Instant.now(), Instant.now());
     	}
     	
-    	
-    	
+        //Initialize timespanStart & timespanEnd with the timestamp of the first tweet.
+       	Instant Start = tweets.get(0).getTimestamp();
+       	Instant End = tweets.get(0).getTimestamp();
+       	
+ 
         //Iterate over entire collection and check if the timestamp of the current tweet is greater than timespanEnd or less than timespanStart.
         //and accordingly adjust the timespanStart and timespanEnd values.
         for (Tweet currentTweet:tweets) {
@@ -84,6 +83,7 @@ public class Extract {
         	Set <String> mentionedUsersFromSingleTweet = Utilities.getMentionedUsersFromSingleTweet(currentTweet);
         	for(String user:mentionedUsersFromSingleTweet){
         		if(!mentionedUsersLowercase.contains(user.toLowerCase())) {
+        			
         			mentionedUsers.add(user);
         			mentionedUsersLowercase.add(user.toLowerCase());
         		}
