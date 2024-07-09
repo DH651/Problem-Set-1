@@ -4,6 +4,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.Arrays;
+import java.util.HashSet;
+
+
+
+
 
 import org.junit.Test;
 
@@ -21,7 +27,7 @@ public class UtilitiesTest {
 	 * */
 	 
 	
-    /* Testing Strategy for checkUsername
+    /* Testing Strategy for isValidUsername
      *
 	 * Partition on location of "@": start, middle, end
 	 * Partition on username content: with lowercase letters, without lowercase letters
@@ -52,13 +58,13 @@ public class UtilitiesTest {
     
     // No valid username is present, No repeation in the tweets
     @Test
-    public void testGetMentionedUsers2() {
+    public void testGetMentionedUsers1() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet3));
         Set<String> expectedMentionedUsersLowercase = Set.of();
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
@@ -69,23 +75,23 @@ public class UtilitiesTest {
     public void testGetMentionedUsers2() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet6));
         Set<String> expectedMentionedUsersLowercase = Set.of("dippy-dappy", "eli", "rose", "julija");
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
     
     // Atleast one valid username, Usernames are repeated in the tweets
     @Test
-    public void testGetMentionedUsers2() {
+    public void testGetMentionedUsers3() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet9));
         Set<String> expectedMentionedUsersLowercase = Set.of("dippy-dappy", "eli123");
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
@@ -97,8 +103,8 @@ public class UtilitiesTest {
     // Tests that cover subdomains of partition
 	//	"@" is at start, with lowercase, without uppercase,with hypen, without underscore, without digits, no invalid charcater
     @Test
-    public void testcheckUsername1() {
-        boolean mentionedUser = Utilities.checkUsername("@julija-ceh");
+    public void testisValidUsername1() {
+        boolean mentionedUser = Utilities.isValidUsername("@julija-ceh");
         
         assertTrue("expected true", mentionedUser);
     }
@@ -107,8 +113,8 @@ public class UtilitiesTest {
     
 	//  "@" is at start, without lowercase, with uppercase,without hypen, with underscore, with digits, no invalid character
     @Test
-    public void testcheckUsername2() {
-        boolean mentionedUser = Utilities.checkUsername("@TEEJAY_JUVKES1234");
+    public void testisValidUsername2() {
+        boolean mentionedUser = Utilities.isValidUsername("@TEEJAY_JUVKES1234");
         
         assertTrue("expected true", mentionedUser);
     }
@@ -117,8 +123,8 @@ public class UtilitiesTest {
     
     //  "@" is at middle, with lowercase, without uppercase, without hypen, without underscore, without digits, contains invalid character
     @Test
-    public void testcheckUsername3() {
-        boolean mentionedUser = Utilities.checkUsername("deny@deid.com");
+    public void testisValidUsername3() {
+        boolean mentionedUser = Utilities.isValidUsername("deny@deid.com");
         
         assertTrue("expected true", mentionedUser);
     }
@@ -127,8 +133,8 @@ public class UtilitiesTest {
     
     //  "@" is at middle, without lowercase, with uppercase, with hypen, without underscore, without digits, contains invalid character
     @Test
-    public void testcheckUsername4() {
-        boolean mentionedUser = Utilities.checkUsername("UPPP#@JUL-IJA<?");
+    public void testisValidUsername4() {
+        boolean mentionedUser = Utilities.isValidUsername("UPPP#@JUL-IJA<?");
         
         assertTrue("expected true", mentionedUser);
     }
@@ -137,13 +143,13 @@ public class UtilitiesTest {
     
     //  "@" is at end, without lowercase, without uppercase, without hypen, with underscore, with digits, contains invalid character
     @Test
-    public void testcheckUsername5() {
-        boolean mentionedUser = Utilities.checkUsername("@&JUL_@I_JA$%");
+    public void testisValidUsername5() {
+        boolean mentionedUser = Utilities.isValidUsername("@&JUL_@I_JA$%");
         
         assertTrue("expected true", mentionedUser);
     }
     
    
-    
+}  
     
 

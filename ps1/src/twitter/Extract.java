@@ -30,8 +30,8 @@ public class Extract {
     	
         
         //Initialize timespanStart & timespanEnd with the timestamp of the first tweet.
-    	Instant Start = Instant.parse("0000-00-00T00:00:00Z")
-    	Instant End = Instant.parse("0000-00-00T00:00:00Z")
+    	Instant Start = Instant.parse("0000-00-00T00:00:00Z");
+    	Instant End = Instant.parse("0000-00-00T00:00:00Z");
     	
     	//if empty list return a sentinal object.
     	if (tweets.size() == 0){
@@ -83,9 +83,9 @@ public class Extract {
         for (Tweet currentTweet:tweets) {
         	Set <String> mentionedUsersFromSingleTweet = Utilities.getMentionedUsersFromSingleTweet(currentTweet);
         	for(String user:mentionedUsersFromSingleTweet){
-        		if(!mentionedUsersLowercase.contains(user.isLowerCase())) {
+        		if(!mentionedUsersLowercase.contains(user.toLowerCase())) {
         			mentionedUsers.add(user);
-        			mentionedUsersLowerCase.add(user.toLowerCase());
+        			mentionedUsersLowercase.add(user.toLowerCase());
         		}
         		
         	}

@@ -76,8 +76,7 @@ public class FilterTest {
 //	   5. more than one tweet, more than word, zero tweets with atleast one word from words.
 //     6. zero tweet, one word, zero tweet with atleast one word from words,
 
-	
-	
+
 	private static final Instant d0  = Instant.parse("2016-02-17T10:00:00Z");
 	private static final Instant d1  = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2  = Instant.parse("2016-02-17T11:00:00Z");

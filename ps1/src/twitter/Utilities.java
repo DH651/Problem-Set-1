@@ -1,6 +1,5 @@
 package twitter;
 
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +27,7 @@ public class Utilities {
     	Set<String> mentionedUsers= new HashSet<String>();
     	 
     	// Iterate over each word and check if the current word is a valid username,if yes then add it the answer.
-    	for(word:Words) {
+    	for(String word:Words) {
     		if (isValidUsername(word)) {
     			mentionedUsers.add(word);
     		}

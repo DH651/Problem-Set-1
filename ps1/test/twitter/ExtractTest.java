@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
-
+import java.util.HashSet;
 import org.junit.Test;
 
 public class ExtractTest {
@@ -66,7 +66,7 @@ public class ExtractTest {
 	 * */
 
 	
-	 
+	private static final Instant d0 =  Instant.parse("0000-00-00T00:00:00Z");
     private static final Instant d1  = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2  = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d3  = Instant.parse("2016-02-18T08:00:00Z");
@@ -103,9 +103,9 @@ public class ExtractTest {
     @Test
     public void testGetTimespanZeroTweets() {
         Timespan timespan = Extract.getTimespan(Arrays.asList());
-        
-        //assertEquals("expected start", d1, timespan.getStart());
-        //assertEquals("expected end", d2, timespan.getEnd()); 
+  
+        assertEquals("expected start", d0, timespan.getStart());
+        assertEquals("expected end", d0, timespan.getEnd()); 
     }
     
     
@@ -134,7 +134,7 @@ public class ExtractTest {
     // covers tweets.length() is more than one, number of tweets with minimum timespan is more than one
     // number of tweets with maximum timespan is one.
     @Test
-    public void testGetTimespanArbitraryLength() {
+    public void testGetTimespanArbitraryLength1() {
     	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5, tweet6, tweet7, tweet8, tweet9));
     	
     	assertEquals("expected start", d1, timespan.getStart());
@@ -144,7 +144,7 @@ public class ExtractTest {
     // covers tweets.length() is more than one , number of tweets with minimum timespan is more than one
     // number of tweets with maximum timespan is more than one.
     @Test
-    public void testGetTimespanArbitraryLength() {
+    public void testGetTimespanArbitraryLength2() {
     	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5, tweet6, tweet7, tweet8, tweet9, tweet10));
     	
     	assertEquals("expected start", d1, timespan.getStart());
@@ -159,25 +159,25 @@ public class ExtractTest {
     public void testGetMentionedUsers1() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList());
         Set<String> expectedMentionedUsersLowercase = Set.of();
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
 
-    
+
     
     //    Zero valid usernames, atleast one tweet in tweets
     @Test
     public void testGetMentionedUsers2() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet10));
         Set<String> expectedMentionedUsersLowercase = Set.of();
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
@@ -189,10 +189,10 @@ public class ExtractTest {
     public void testGetMentionedUsers3() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet10));
         Set<String> expectedMentionedUsersLowercase = Set.of("rose", "eli", "julija", "12345");
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
@@ -202,13 +202,13 @@ public class ExtractTest {
     
     //    Atleast one valid username but total is less than tweets.length(), One <= No. of repetations of valid username< tweets.length(), atleast one tweet in tweets.
     @Test
-    public void testGetMentionedUsers1() {
+    public void testGetMentionedUsers4() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet5, tweet6, tweet7, tweet8, tweet10));
         Set<String> expectedMentionedUsersLowercase = Set.of("eli", "dippy-dappy", "rose", "lily-rose");
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }
@@ -217,13 +217,13 @@ public class ExtractTest {
     
     //    More than tweets.length() valid usernames, tweets.length() repetations of valid username, atleast one tweet in tweets.
     @Test
-    public void testGetMentionedUsers1() {
+    public void testGetMentionedUsers5() {
         Set<String> actualMentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet5, tweet6, tweet7, tweet9));
         Set<String> expectedMentionedUsersLowercase = Set.of("eli", "dippy-dappy","rose", "donnie", "Masalafry");
-        Set<String> actualMentionedUsersLowercase = new Set<String>();
+        Set<String> actualMentionedUsersLowercase = new HashSet<String>();
         
         for (String username:actualMentionedUsers) {
-        	actualMentionedUsersLowercase.add(username.toLowerCase())
+        	actualMentionedUsersLowercase.add(username.toLowerCase());
         }
         assertTrue("Expected", expectedMentionedUsersLowercase.containsAll(actualMentionedUsersLowercase));
     }

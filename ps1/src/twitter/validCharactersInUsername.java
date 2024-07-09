@@ -1,7 +1,7 @@
 package twitter;
 
-import java.util.EnumSet;
-import java.util.Set;
+
+
 
 public enum validCharactersInUsername {
 	//Uppercase Letters
