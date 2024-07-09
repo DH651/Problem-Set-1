@@ -3,6 +3,9 @@ package twitter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Utilities {
 	
@@ -51,10 +54,12 @@ public class Utilities {
      * @return true if the word is a valid username Otherwise returns false 
      */
     public static boolean isValidUsername(String word){
-    	
-    	throw new RuntimeException("not implemented");
-    	// Break the tweet.text into words and add these two a list 
-    	// Iterate over each word and check if the current word is a valid username,if yes then add it the answer.
+    	// regex pattern matches with the word starting with @ followed by one or more characters from the lowercase letters[a-z]
+    	// ,uppercase letters[A-Z], underscore[_], hypen[_].
+    	 Pattern pattern = Pattern.compile("@[a-zA-z0-9_-]+");
+    	 Matcher matcher = pattern.matcher(word);
+    	 boolean matchFound = matcher.find();
+    	 return matchFound;
     }
     
     
@@ -75,7 +80,8 @@ public class Utilities {
      * @return true of the tweet contains certain word from words
      */
     public static boolean tweetContainsWords(Tweet tweet, List<String> words) {
-        throw new RuntimeException("not implemented");
+    	 String[] wordsFromTweet = tweet.getText().split(" ");
+    	 return true;
         //Create a Set of words.
         //Break the twitter.text into words and check if any of the words matches with words
     }
