@@ -3,7 +3,6 @@ package twitter;
 import static org.junit.Assert.*;
 import java.time.Instant;
 import java.util.Set;
-import java.util.Arrays;
 import java.util.HashSet;
 
 
